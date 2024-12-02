@@ -1,0 +1,89 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CheckDomainAvailability API",
+    "description": "API for checking the availability of domain names and retrieving domain information using the WHOIS service.",
+    "version": "1.0.0"
+  },
+  "host": "127.0.0.1:5000",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/CheckDomainAvailability": {
+      "post": {
+        "summary": "Check Domain Availability",
+        "description": "Checks the availability of a list of domain names using the WHOIS service.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DomainsList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of domain availability results",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": ["boolean", "string"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/DomainInfo": {
+      "get": {
+        "summary": "Get Domain Information",
+        "description": "Retrieves detailed information about a specified domain using the WHOIS service.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "domain",
+            "required": true,
+            "type": "string",
+            "description": "The domain name to retrieve information for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detailed information of the specified domain",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Error: No domain specified"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "DomainsList": {
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
